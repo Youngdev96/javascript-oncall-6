@@ -2,6 +2,7 @@ import { Console } from '@woowacourse/mission-utils';
 import Weekdays from '../utils/constants/Weekdays.js';
 
 class InputView {
+  // 근무일
   async requestMonthAndWeekday() {
     while (true) {
       try {
@@ -33,6 +34,44 @@ class InputView {
 
   isValidWeekday(input) {
     return Weekdays.includes(input);
+  }
+
+  // 근무자
+  async requestWorkerList() {
+    while (true) {
+      try {
+        const weekdayInput = await Console.readLineAsync(
+          '평일 비상 근무 순번대로 사원 닉네임을 입력하세요> ',
+        );
+        const weekendInput = await Console.readLineAsync(
+          '휴일 비상 근무 순번대로 사원 닉네임을 입력하세요> ',
+        );
+        return [
+          this.parseWorkers(weekdayInput),
+          this.parseWorkers(weekendInput),
+        ];
+      } catch (error) {
+        Console.print(error.message);
+      }
+    }
+  }
+
+  parseWorkers(input) {
+    if (input === '') {
+      throw new Error('[ERROR] 유효하지 않은 근무자 입니다. 다시 입력해주세요');
+    }
+    const workers = input.split(',').map((worker) => worker.trim());
+    if (!this.validateWorker(workers)) {
+      throw new Error('[ERROR] 유효하지 않은 근무자 입니다. 다시 입력해주세요');
+    }
+    return input;
+  }
+
+  validateWorker(workers) {
+    const isOnlyOne = new Set(workers).size === workers.length;
+    const isRightLength = workers.every((worker) => worker.length <= 5);
+
+    return isOnlyOne && isRightLength;
   }
 }
 

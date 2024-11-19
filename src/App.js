@@ -6,7 +6,8 @@ class App {
   }
 
   async run() {
-    this.controller.prepareProgram();
+    const [date, workers] = await this.controller.prepareProgram();
+    this.controller.runProgram(date, workers);
   }
 }
 
