@@ -14,7 +14,7 @@ class programController {
   }
 
   async runProgram(date, workers) {
-    this.outputView.printSchedule(date[0], date[1]);
+    this.outputView.printSchedule(date[0], date[1], workers);
   }
 }
 
