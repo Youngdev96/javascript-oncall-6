@@ -38,8 +38,11 @@ class OutputView {
   }
 
   checkHoliday(month, date, weekday) {
-    if (['토', '일'].includes(weekday) || HolidayDates[month].includes(date)) {
+    if (HolidayDates[month].includes(date)) {
       return 'Holiday';
+    }
+    if (['토', '일'].includes(weekday)) {
+      return 'Weekend';
     }
     return 'Weekday';
   }
